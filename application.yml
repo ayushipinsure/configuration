@@ -1,0 +1,25 @@
+spring:
+  security:
+    oauth2:
+      client:
+        provider:
+          keycloak:
+            issuer-uri: http://localhost:8180/auth/realms/demo
+        registration:
+          keycloak:
+            client-id: bfsample
+  cloud:
+    gateway:
+      routes:
+        - id: add
+          uri: http://localhost:8081/
+          predicates:
+            - Path=/newInsured
+          filters:
+            - TokenRelay=
+        - id: search
+          uri: http://localhost:8081/
+          predicates:
+            - Path=/searchallInsured
+          filters:
+            - TokenRelay=

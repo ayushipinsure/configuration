@@ -1,3 +1,4 @@
+
 spring:
   security:
     oauth2:
@@ -8,6 +9,7 @@ spring:
         registration:
           keycloak:
             client-id: bfsample
+
   cloud:
     gateway:
       routes:
@@ -23,3 +25,46 @@ spring:
             - Path=/searchallInsured
           filters:
             - TokenRelay=
+        - id: message
+          uri: http://localhost:8082/
+          predicates:
+            - Path=/getData/nearBySearch
+          filters:
+            - TokenRelay=
+
+#    stream:
+#      bindings:
+#        input:
+#          destination: test
+
+#    stream:
+#      bindings:
+#        source1-out-0:
+#          destination: test1
+#        source2-out-0:
+#          destination: test2
+#        sink1-in-0:
+#          destination: test1
+#        sink2-in-0:
+#          destination: test2
+#      function:
+#        definition: source1;source2;sink1;sink2
+
+  application:
+    name: spring-cloud-detail-client-server
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: ${EUREKA_URI:http://localhost:8761/eureka}
+  instance:
+    preferIpAddress: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    info:
+      enabled: true
+    enabled-by-default: false
